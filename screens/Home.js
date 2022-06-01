@@ -1,5 +1,7 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Text, View, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -12,22 +14,45 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     padding: 10,
     marginTop: 10
+  },
+  input: {
+    borderColor: 'black',
+    borderWidth: 1,
+    width: 100
   }
 });
 
 const Home = (props) => {
+  const [text, setText] = useState('');
+  const [list, setList] = useState([]);
+
   return(
     <View style={styles.container}>
-      <Text>
-        Home Screen!
-      </Text>
+      <TextInput 
+        style={styles.input} 
+        onChangeText={setText}
+        />
       <TouchableOpacity 
         style={styles.button} 
-        onPress={() => props.navigation.navigate('Settings')}>
+        onPress={() => setList([...list, text])}>
           <Text>
-            Go to settings!
+            + Add
           </Text>
       </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => setList([])}>
+          <Text>
+            Clear
+          </Text>
+      </TouchableOpacity>
+      <View>
+        {list.map((value, index) => (
+          <Text key={index}>
+            {value}
+          </Text>
+        ))}
+      </View>
     </View>
   )
 }
